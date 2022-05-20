@@ -75,6 +75,13 @@ class DataSourceGenerator:
                 )
             ):
                 pass
+            elif isinstance(
+                self.generators[key], ak._v2._connect.cling.RegularArrayGenerator
+            ) and (
+                self.generators[key].flatlist_as_rvec
+                and self.generators[key].is_flatlist
+            ):
+                pass
             else:
                 self.entry_types[key] = "awkward::" + self.entry_types[key]
 
@@ -219,7 +226,6 @@ namespace awkward {{
                 fEntryRanges.emplace_back(start, end);
                 (void)i;
              }}
-             // TODO: redistribute reminder to all slots
              fEntryRanges.back().second += fSize % fNSlots;
         }}
 
